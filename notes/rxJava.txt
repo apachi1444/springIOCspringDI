@@ -1,0 +1,43 @@
+what rx did : 
+data transformation 
+	Observable.just( 5 , 6 , 7 )
+		  .map { " - ) -".repeat(it) }
+		  .subscribe {println(it)} 
+
+chaining :
+	Observable.just( 5 , 6 , 7 )
+		  .map { " - ) -".repeat(it) }
+		  .filter{ it.length < 24 }
+		  .subscribe {println(it)}
+
+abstraction : focus on what you want to do not how you want to  do that thing 
+
+rx java : handles asynchronous data stream
+rx java vs sequences in kotlin
+
+- it has flexible threading model
+	using schedulers : we tell the observables when to do things 
+	listen to a specific stream 
+	Observable.just( 5 , 6 , 7 )
+		  .subscribeOn(Schedulers.io())
+		  .map { " - ) -".repeat(it) }
+		  .filter{ it.length < 24 }
+		  .subscribe {println(it)}
+
+-Observable : is a sort of a source of events' stream
+ - cold one : waiting for someone to tell him to work
+ - hot one : working in the moment of creating the observable
+
+
+Observer : interface Observer < T > {} : T is the particular item that i ll be will respo for
+
+Observer LifeCycle :
+	first : onSubscribe ----> Normal flow ( onNext we call it as many time as we want )
+  ----> when finish either onComplete 
+
+the observer is the public api for consuming the values of observable
+
+all observers get converted into a subscriber
+
+subscriber is a common type of rx implements the operators 
+			

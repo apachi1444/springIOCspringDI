@@ -1,0 +1,125 @@
+serveur application : container web ( like tomcat ) + framework to do the IOC 
+
+hibernate / toplink were already before jpa 
+every tech has its own code 
+that's why jpa facilitties la vie by just doing a simple code and it's available for all implementations
+
+jpa est une interface ( ensemble des interfaces ) est une api en fait
+
+sun fait des implementations par défault de cet api qui est pour le serveur web glass fish et 
+ce dernier utilise déja le eclipse link , JBOSS ( hibernate) 
+
+pour utiliser hibernate par example il faut faire le mapping les entités ( soit XML , annotations ) 
+
+mvn compile , test , package , install , deploy , site ( doc du projet ) 
+maven pour automatisation de la conception des logiciels
+jenkins : automatisation de la pipeline ( ca veut dire il va prendre le code du git , 
+puis il va utiliser maven pour le compiler , tester ... , apres il utilise docker pour 
+la containerisation et pouquoi pas le kubernetes
+
+@Entity : our class correspond au table dans la bd => obligatoire
+	we must here do the 
+	@Id( primary key ) => obligatoire
+	@GeneratedValue(strategy  = GenerationType.IDENTITY )
+		Id is autoincrementing
+	// optional	
+	@Column(name = "REF")
+@Table(name="nameOfTableInBd")
+
+Serialization : convertir object de la mémoire en tableau d'octets
+et la déserliazation peut etre faite dans une autre langage
+ !!!! dans la réalité chaque couche se trouve dans une machine  :!!! !!! 
+Entity : respecte les regles de la JAVA BEAN
+qui sont sépares du traitement comme search product in BD
+et ces beans peuvent etre traverses dans toutes les couches
+
+objet persistant meme si on fait arreter l'application l'object reste toujours 
+pas comme en ram tout est volatile 
+ce dernier donc sera saved dans la base de données 
+
+donc un object persistant est un objet dont les donnees sont conservées dans 
+une unité de persistance  ( fichier , bd  .. )
+
+au moment de l'execution on doit préciser quelle implementation on doit choisir 
+de l'api jpa 
+
+donc dans le fichier persistance.xml 
+<persistance-unit 
+	<provider ( soit hibernate , soit eclipse link , soit topLink)
+	<properties
+		<property dire au hibernate quel est la bd qu'on va utiliser 
+		<property username 
+		<property charger le pilote jdbc ( indiquer quelle bd  ) 
+		<property MYSQLDIalect to mention to hibernate which sql he should
+			use to speak with the db 
+		<property hibernate.hbm2ddl.auto soit create soit update	
+< 
+
+dans les parties dev , test et prod on utilisent chacun de ces modes un fichier
+de config , chaque mode on utilise sgbd different
+
+pour utiliser le jpa , tout d'abord on doit creer 
+EntityManagerFactory = Persistence.createEntityManagerFactory("NameOfPersistanceUnit")
+il est singleton ( gère le connectivité avec la base de données )
+
+
+EntityManager qui gere les entités ( permet la persistance des objets )
+qui permet aussi de creating queries( HQL : on manipule les classes et les relations entre les classes )
+=> donc hibernate va traduire le HQL TO SQL
+entityManager.merge ( ) after doing the update !!!
+
+
+// cette interface nous permet de faire des transaction dans la base de données
+EntityTransaction = entityManager.getTransaction()
+
+on peut avoir plusieurs entitymanager factory donc plusieurs persistance unti
+et chaque emf va parler avec une bd specifique
+
+==================>
+
+and now comes the spring data 
+
+
+---------------->
+
+gérer a votre place les choses surtout pour emf , em , ... de jpa 
+Spring DATA crée deja des interfaces génériques  et des implémentations génériques
+
+pas besoin de faire appel au entityManager
+
+findByDesignation ( find = select , By = where , Designation = existe déja dans model )
+--> pas la peine d'implemeneter cette methode la 
+findByDesignationContainsAndPrix(String mc , double prix )
+
+le compilateur va demander au lombook de transformer les annotations en byte code
+
+pour la base de donnees h2 on n'a pas besoin de configurer application.properties
+h2 : base de donnees en mémoire
+
+spring data implemente tout seul les repositories 
+
+implements COmmnadLineRunner : override method Run
+
+resumé : pour les couches
+
+APPLICATION -> SPRING DATA -> JPA -> HIBERNATE -> JDBC -> SGBD;
+
+les jar de maven se trouve dans .M2 repository
+
+dans JPA les id sont des classes pas des primitives
+
+dans la methode findAll(PageRequest.of(0 , 2))=> donne moi que 2 patients
+0 means first 2 records dans la base de données 
+1 means 3 et 4 eme record de la base de données
+et le retour sera biensur Page !!!
+.getContent() pour récuperer la liste de find all
+
+pourquoi on appelle HQL et non pas eclipseLinkQL car hibernate a ete crée avant jpa 
+donc jpa a ete improvisé de hibernate ( JPQL = HQL )
+
+Serveur application : GLASSFISH PAR SUN ( ECLIPSE LINK )
+		      JBOSS PAR WILDFLY ( HIBERNATE )
+		      WEBSPHERE PAR IBM ( 		
+	=> donc mon application je peux le mettre n'importe ou 
+		soit glassfish soit jboss car j'utilise jpa ( api , ensemble des interfaces )
+		

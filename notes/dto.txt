@@ -1,0 +1,13 @@
+data transfer object 
+
+au cas ou notre entité jpa contient too much keys qu'on a pas besoin vraiment 
+dans la partie front 
+
+
+jpa entity is used in service layer and the dao layer
+
+et la couche business qui va faire la mapping entre dto et entities
+
+donc dans chaque projet on doit faire un package mappers 
+qui sera chargée de mapper entre entity et dto
+

@@ -1,0 +1,82 @@
+2 MODELE D'auth
+
+Stateful Authentication : les données de session sont stockes coté serveur
+	apres que le user fait son login au site
+	on va stocker ses donnes dans une session
+	et apres on va le transmettre le session id 
+	sous forme cookie ( le cookie est un fichier temporaire
+	stocké dans le navigateur )
+	donc a chaque fois il doit faire une requete il doit
+	envoyer que la session id dans le requete
+	et la session a un timeout
+	!!!! si on faire une request vers un serveur toujours on envoie avec 
+		les cookies
+	
+
+Stateless Authentication  : les données de session sont stockes coté client
+				after doing the login
+				the server will generate a token
+				in which he will stock all the data of the user
+				( json ,contient role , signature .. )
+			after that le user doit stocker ce jwt dans local storage
+			if he do another request he will send the jwt
+			and the server will verifiy the signature
+
+qques failles de security :
+	Cross Site Request Forgery ( CSRF )
+		un hacker qui force un user de faire un traitement sans sa conscience
+		en utilisant le session id qui se trouve dans les cookies
+
+	-> pour prévoir cette attaque :
+		on utilise CSRF Synchronizer Token
+		c'est un token qui est généré par le serveur 
+		et qui sera au front hidden ! donc si le user
+		renvoie le formulaire il vérifie si le token est le meme ou non
+		que pour la app rendu coté serveur
+
+
+JWT est autonome car il contient tous les infos sans faire appel au serveur
+Header.payload.signature
+
+Header : {
+	"alg" : "HS256", => HS : Hmac : symmetric !== RSA 
+	"typ" : "JWT"
+}
+
+pour transmettre le header on doit faire l'encode base 64 url 
+ !== encrypt 	// 
+
+Paylaod ( des claims ) {
+	// subject
+
+	//// ------- 
+	"sub" : "id de user",
+	"iss" : "localhsot:..",
+	"aud" : "audience",
+	"exp" : "date expiration",
+	"nbf" : "not used before this date",
+	//// ----- sont des registres claims ///
+
+	/// --- private claims --- //
+	"name" : "yessine",
+	"roles" : "admin"
+
+	/// --- public claims --- //
+
+	"email"  : "par example"
+
+}
+
+Signature {
+	hmACSHA256(base64encoded(header) + '.' + encoded(payload) , secret ) 
+}
+
+supposons que le user apres le login a modifié le payload ( a ajouté role admin )
+donc le serveur apres qu'il va hasher le header et le paylaod
+
+jwtRefreshToken : is a long term token 
+jwtAccessToken : is a short term token
+
+if the access is done the user must send him the refresh token or the username
+and pass again which is not pratique so 
+he should send the refresh to make the server able to resend him a new access token

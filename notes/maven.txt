@@ -1,0 +1,22 @@
+ mvn compile
+
+ mvn test
+
+ mvn package ( JAR ou WAR )
+ 
+ mvn install ( install the jar in the maven repo which you will send to others )
+
+ mvn deploy
+
+ mvn site ( generates docs for your jar )
+
+maven uses a paradigm ( Project Object Model )
+
+maven has a local repository ( ./m2 )
+
+checks for a jar if it exists or not 
+else download it from the distant repo
+
+we need to use spring-core spring-aop spring-context spring-beans
+
+method signature is combination of the method name and name parameter list

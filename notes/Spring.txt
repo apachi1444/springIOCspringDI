@@ -1,0 +1,88 @@
+fermée a la modification : faut pas toucher le code source
+			   probleme de regression
+			   example of salarié qui modifient le code apres ils
+			   quittent l'entreprise donc il faut le redévelopper
+	 	
+
+
+ouverte a l'extension  :  pour corriger un bug 
+
+ !!!!!!!!!! exigences fonctionnelle ( couche métier ) : les besois métier
+ !!!!!!!!!! exigences techniques : perfo ( scalable , maintanble .. ) 
+
+IOC : se concentrer sur l'exigence fonctionnel et c'est le framework qui 
+s'occupe de la parite techniques
+( spring ioc light , entreprise java beans heavy container )
+
+chaque transition aura begin et commit ( or rollback of course )  
+@Transactional 
+( déléguer la gestion des transactions a un délégué 
+qui va faire le begin de la transaction et le commit 
+if there is no error of course  )  
+
+then comes the AOP ( which separates every aspect in its own class )
+par exemple of utilise la classe transactional ( @Transactional ) 
+
+ioc qui va utiliser others framework like 
+
+dans l'interface on déclare que la signature des fonctions
+
+couplage faible , on déclare dans la classe une variable de type interface 
+=> donc ca sera fermée a la modification ( on doit pas changer la classe A 
+et ouverte extension car on utilise déja une interface )
+
+si on fait "new" donc on applle ca instanciataion statique 
+au moment de la compilation je connais le nom de la classe
+
+on charge le byte code de la classe en mémoire
+class.forName ( au moment de l'execution il cherche si cette classe existe si oui
+il va charger le byte code en mémoire donc la classe sera chargée sous type objet Class
+ces classes sont chargés une seule fois 
+Class.newInstance() peut generer une exception IllegalAccessException si la classe ne contient pas 
+constructor par défault
+
+on peut pas appeler setter dans une interface 
+donc on doit appeler dynamiquement une methode d'un objet 
+Method method = classInMemory.getMethod("nameMethod" , arg of that method ) ;
+
+Autowired tells spring to search in the application context which class implements that interface
+who will use the setter directly
+
+
+String daoClassName = scanner.nextLine();
+        Class cDao = Class.forName(daoClassName);
+        DAO objectDAO = (DAO) cDao.newInstance();
+
+        String metierClassName = scanner.nextLine();
+        Class cMetier = Class.forName(metierClassName);
+        Metier metier = (Metier) cMetier.newInstance();
+
+        Method method = cMetier.getMethod("setDao" , DAO.class);
+        method.invoke(metier , objectDAO);
+
+
+		EQ A !!!!!!!!!!!!!!!!!
+
+DAOImpl dao = new DAOImpl();
+//        MetierImpl metier = new MetierImpl();
+//        metier.setDao(dao);
+//        System.out.println(metier.calculate());
+
+
+dans le fichier xml 
+property is done until we have a setter
+
+spring container when he'll start he will create a collection Map of BEANS 
+( K is for the ID given & Value = NameOfClassInstanciated )
+and he will do of course the dependnecy injection	
+
+getBean will return an Object so we should do the cast 
+
+@Component(value="id") tells spring to create an object of that class
+
+new AnnotationConfigApplicationContext("nameOfPackageOneToScan" , "secondNameOfPackage");
+
+MVN  PACKAGE => JAR OU WAR
+MVN DEPLOY => mettre le jar ou war dans un serveur d'application 
+
+

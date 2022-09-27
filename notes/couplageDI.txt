@@ -1,0 +1,39 @@
+couplage fort 
+	quand class A est liée à une classe B : class A est fortement couplée a la classe B
+	le fait de faire IA a = new ImplA() 
+
+couplage faible
+	nous devons utiliser les interfaces ( dedans on déclare que la signature des méthodes)  
+	
+	( je veux pas créer mon object maintenant )
+	private IDao dao = null;
+	
+	les langages compilés offre l'instanciation dynamique et statique ( new )
+	pour le chargement dynamique on doit travailler class.forName
+	it means chargement du byte code dans la mémoire
+	var className =Class.forName("");
+	meme si on utilise new() il va charger la classe en mémoire 
+	puis créer un objet de cette classe
+	Object o = className.newInstance() return a new Object
+
+	pour invoker une méthode dynamiquement il faut appler object Method
+	
+	@Autowired
+	private IDao dao;
+
+	tell springs if you find an object that implements this interface 
+	assign to that bean dao
+
+
+
+	if we work with annotations 
+	ApplicationContext ctx = new AnnotationConfigApplicationContext("dao" , "metier");
+	// faire le scan du package dao et metier
+	IMetier metier = ctx.getBean(IMetier.class);
+
+
+	!!!!!!!!!!!!!!!
+	AOP separate each aspect in a single class
+
+	UnsatisfiedDependencyExcpetion si application context ne trouve aucune bean qui
+	implemente une interface déja 	

@@ -1,0 +1,59 @@
+- exigences techinques
+	performances : app doit etre performante
+		temps de réponse
+		probleme de montée de charge : vers une architecture scalable
+			( si le nombre de users est augmenté )
+		faire le load balancing faire plusieurs instances du serveur et dispatcher les requetes 
+
+	maintenance : doit etre facile a maintenir
+		app doit evoluer dans le temps 
+		fermé a la modification et ouvert a l'extension
+
+	sécurité
+	persistance dans SGBD
+
+- exigences fonctionnelles
+	satisfaire les besoins métiers ( use cases ) 
+	diagramme use case pour répondre a ces besoins la 
+	faire tests fonctionnels pour tester ces besoins la 
+
+Constat : tres difficile de respecter les exigences sans utiliser l'expérience des autres
+	batir l'app sur une architecure d'entreprise ( JEE ) 
+
+	JEE apps run on application server that handles transactions
+	Spring uses PlainOldJavaObjects ( POJO ) , we don't need an entreprise container like an application server 
+	spring offers containers ( BeanFactory , ApplicationContext for containerization )
+	
+	spring wraps our application into a container called application Context 
+	which manages the object instances and takes care of the relation between objects
+	
+	lots of boilerplate code no longer necessary
+
+	!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+		Spring Bean is just an instance of class managed by the spring container
+		when to kill it , when to use it ...
+		@Component @Controller @Service 
+		make this class and treat it as a bean
+
+	!!!!!!!!!!!!!!!!!!!!!!
+
+	!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+		Spring Container is part of core of  the spring framework
+		performs Dependency injection
+		SpringApplication.run(NameProject.class) returns an application context
+		the main application scans all the classes that are in the sama package 
+		not the higher ones !!!!
+
+		@Bean
+		a method 
+		the java config will execute it and register the return value as a bean
+		within the BeanFactory
+
+	!!!!!!!!!!!!!!!!!!!!!!
+	
+
+	utiliser framework pour IOC ( Spring IOC : conatainer light , Entreprise Java Bean : container lourd utilise serveur application JBOSS,  GLASSFISH .. )
+
+

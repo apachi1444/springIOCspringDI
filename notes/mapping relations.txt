@@ -1,0 +1,56 @@
+if we have a bidirectionnel relation we have to declare both of objects in both classes 
+if we have a unidirectionnel relation we have to declare only one object 
+
+example : 
+patient 1 <-  * rendez vous 
+
+dans la classe rendez on doit declarer un object de type patient 
+et pas la peine de déclarer une liste des rendez vous dans la classe patient
+
+la classe qui contient l'annotation @ManyToOne 
+	well on peut ajouter @JOINCOLUmn ( name =" qsdklfj") 
+		to indicate to the bd the name of the column which contains 
+		the foreign key
+	will create a field containing the id of that particular object 
+
+pour l'annotation @OneToMany(mappedBy = "patient", fetch method)
+			LIst oF Rendez vous 
+		=>> pour montrer au jpa que la relation oneToMany
+			est déja mappé dans la classe rendez vous 
+			avec un attribut qui s'appelle patient déja
+			-> if we have fetch.LAZY ( par défault )
+				when we load a patient object 
+				!!!!! we don't have to load also its list 
+				inside the memory !!!!!!
+				so if we do patient.getListRendezVous 
+				a ce moment la il va charger la liste 
+				de la base de donnes
+
+			-> if we have fetch.EAGER 
+				la collection on doit l'initialiser avec new ArrayList();
+				il charge automatiquement la liste des rendez vous
+ 				example of using the eager method :
+					voiture est composée des roues et moteur
+					on doit charger tous a chaque fois qu'on appelle la voiture
+			
+
+si on a @OneToOne
+	la classe qui ne contient pas mappedBy va avoir le foreign key dans sa table
+
+
+si on a @ManyToMany
+on aura une nouvelle table qui sera crée
+pour nommer ce tableau la on peut utiliser l'annotation 
+	@JoinedTable(name)
+	and this annotation should not be in the same class which contains mappedBy
+
+Mapping de l'héritage : 
+	single_table : classe mere le modele le plus rapide si on a pas beaucoup 
+	de cols vides
+	on doit ajouter une column type ( discriminator ) 
+	@DiscriminatorColumn(name , length ) 
+
+	table_per_class
+
+	joined_table
+	
